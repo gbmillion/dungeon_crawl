@@ -11,22 +11,38 @@ import java.util.Random;
 /**
  * @author george million
  *
- * Todo:
-void trap(int * hpp);
-void item(struct item invent[100]);
-void step(int * hpp, struct item  play[100]); 
-void combat(int * hpp, int monster_hp, struct class * player); 
-void use(struct class * player);
-void potion( int * trait, int buff);
-
+ * Todo: 
+ * 
  */
 
 public class game {
 	public game() throws FileNotFoundException {
 		System.out.println("Error FileNotFoundException.");
 	}
-	
-	
+	private static void step(player toon, item_db itemdb ){
+		Random rand = new Random(); 
+		if (rand.nextInt(100) < 30) trap(toon);//30% to hit trap
+		else if (rand.nextInt(100) > 90) item( toon,itemdb);//10% chance to get item
+	}
+	private static void trap(player toon ){
+		Random rand = new Random(); 
+		int dmg=0;
+		dmg = rand.nextInt(10);
+		toon.hp = toon.hp - dmg;
+		System.out.print("You have stepped on a trap, " + dmg + " damage.\n");	
+	}
+	private static void item( player toon, item_db itemdb ){
+		;
+	}
+	private static void combat( player toon, int monster_hp ) {
+		;
+	}
+	private static void use (player toon) {
+		;
+	}
+	private static void potion( int trait, int buff) {
+		;
+	}
 	/**
 	 * @param args
 	 * @throws IOException 
@@ -38,6 +54,7 @@ public class game {
 		item_db itemdb = new item_db();
 		
 		// TODO Auto-generated method stu
+		int c1 = 0;
 		int[][] map = new int[100][100];
 		int i=0;
 		int e=0;
@@ -61,46 +78,56 @@ public class game {
 		System.out.println("Predefined classes are: mage,fighter,healer,rouge [or enter your own]");
 		toon.template("default");
 
-
-	 	//main game loop
 		i=0;
 		e = 0; //set starting position
-	
-		int c1 = 0;
+	 	//main game loop
 		while (0==0){
-			c1 = System.in.read();
-			//each movement has a 30 percent chance of hitting a trap
-			switch(c1){
-			//move in grid
-			//call combat check
+			c1 = System.in.read(); 
+			switch(c1){ 
 			case 'a':
-				e++;
-				System.out.print("You have went left[w,a,s,d].\n");
-			/*	if(map[e][i]>0){
-					combat(&health,map[e][i],&player);
-				} else step(&health,player.inventory);
-				*/break;
+				if (e == 100) {
+					System.out.println("You can not go that way.");
+				} else {
+					e++;
+					System.out.print("You have went left[w,a,s,d].\n");
+					if(map[e][i]>0){
+						combat(toon,map[e][i]);
+					} else step(toon,  itemdb);
+				}
+				break;
 			case 's':
-				i--;
-				System.out.print("You have gone back[w,a,s,d].\n");
-			/*	if(map[e][i]>0){
-					combat(&health,map[e][i],&player);
-				}else step(&health,player.inventory);
-				*/break;
+				if (i == 0) {
+					System.out.println("You can not go that way.");
+				} else {
+					i--;
+					System.out.print("You have gone back[w,a,s,d].\n");
+				 	if(map[e][i]>0){
+				 		combat(toon,map[e][i]);
+					}else step(toon,  itemdb);
+				}
+				break;
 			case 'd':
-				e--;
-				System.out.print("You have gone right[w,a,s,d].\n");
-			/*	if(map[e][i]>0){
-					combat(&health,map[e][i],&player);
-				}else step(&health,player.inventory);
-				*/break;
+				if (e == 0) {
+					System.out.println("You can not go that way.");
+				} else {
+					e--;
+					System.out.print("You have gone right[w,a,s,d].\n");
+				 	if(map[e][i]>0){
+				 		combat(toon,map[e][i]);
+					}else step(toon,  itemdb);
+				}
+				break;
 			case 'w':
-				i++;
-				System.out.print("You have gone forward[w,a,s,d].\n");
-			/*	if(map[e][i]>0){
-					combat(&health,map[e][i],&player);
-				}else step(&health,player.inventory);
-				*/break;
+				if (i == 1000) {
+					System.out.println("You can not go that way.");
+				} else {
+					i++;
+					System.out.print("You have gone forward[w,a,s,d].\n");
+				 	if(map[e][i]>0){
+				 		combat(toon,map[e][i]);
+					}else step(toon,  itemdb);
+				}
+				break;
 			case 'i':
 				//list inventory
 			/*	while (player.inventory[in].amount=='1') {
