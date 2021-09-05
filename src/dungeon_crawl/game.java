@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import java.util.Random;
+import java.util.Scanner;
 /**
  * @author george million
  *
@@ -24,13 +25,14 @@ public class game {
 		else if (rand.nextInt(100) > 90) item( toon,itemdb);//10% chance to get item
 	}
 	private static void trap(player toon ){
-		Random rand = new Random(); 
-		int dmg=0;
-		dmg = rand.nextInt(10);
-		toon.hp = toon.hp - dmg;
-		System.out.print("You have stepped on a trap, " + dmg + " damage.\n");	
+		Random rand = new Random();
+
+		toon.setHp(toon.getHp() - rand.nextInt(10)); 
+		System.out.println("You have stepped on a trap, your hp is now " + toon.getHp()  );	
 	}
 	private static void item( player toon, item_db itemdb ){
+		//first 
+		System.out.println("Hellow world");
 		;
 	}
 	private static void combat( player toon, int monster_hp ) {
@@ -57,6 +59,7 @@ public class game {
 		int[][] map = new int[100][100];
 		int i=0;
 		int e=0;
+		String input;
 		Random rand = new Random(); 
 
 		System.out.println("Welcome to dungeon hack!\nCommands: i[inventory],x[exit],u[use]");
@@ -73,7 +76,17 @@ public class game {
 		System.out.print("Generated 100x100 map.\n");
 
 		itemdb.load();
-
+		
+		System.out.println("What would you like your player to be called?");
+		Scanner sc= new Scanner(System.in); //System.in is a standard input stream.
+		input = sc.nextLine(); 
+		while(0==0) {
+			if (input.equals("") ){
+				System.out.println("You must enter a name.");
+			} else break;
+			input = sc.nextLine();
+		}
+		toon.setName(input);
 		System.out.println("Predefined classes are: mage,fighter,healer,rouge [or enter your own]");
 		toon.template("default");
 
@@ -136,6 +149,14 @@ public class game {
 				}
 				in=0;
 				*/break;
+			case 'l':
+					//list item db
+					/*	while (player.inventory[in].amount=='1') {
+							System.out.print("%d: %s\n",in,player.inventory[in].type);
+							in++;
+						}
+						in=0;
+						*/break;
 			case 'x':
 				//exit(0);
 			case 'u':
