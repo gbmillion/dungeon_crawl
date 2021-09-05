@@ -1,11 +1,6 @@
-/**
- * 
- */
 package dungeon_crawl;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
-
 import java.util.Random;
 import java.util.Scanner;
 /**
@@ -26,18 +21,17 @@ public class game {
 	}
 	private static void trap(player toon ){
 		Random rand = new Random();
-
 		toon.setHp(toon.getHp() - rand.nextInt(10)); 
 		System.out.println("You have stepped on a trap, your hp is now " + toon.getHp()  );	
 	}
-	private static void item( player toon, item_db itemdb ){
-		//first 
+	private static void item( player toon, item_db itemdb ){ 
 		Random rand = new Random();
-		int item_found=rand.nextInt(255);
-		
-		
-		System.out.println("Hellow world" + itemdb.items_db[item_found][0].toString() + itemdb.getSize());
-		;
+		int item_found=rand.nextInt(itemdb.getSize());
+		System.out.println("You have found a " + itemdb.items_db[item_found][0]+".");
+		toon.inventory[toon.getInv_size()][0]= itemdb.items_db[item_found][0];
+		toon.inventory[toon.getInv_size()][1]= itemdb.items_db[item_found][1];
+		toon.inventory[toon.getInv_size()][2]= itemdb.items_db[item_found][2];
+		toon.setInv_size( toon.getInv_size() + 1 );
 	}
 	private static void combat( player toon, int monster_hp ) {
 		;
@@ -54,15 +48,13 @@ public class game {
 	 */
 	
 	public static void main(String[] args) throws IOException {
-
 		player toon = new player();
 		item_db itemdb = new item_db();
-		
-		// TODO Auto-generated method stu
 		int c1 = 0;
 		int[][] map = new int[100][100];
 		int i=0;
 		int e=0;
+		int count=0;
 		String input;
 		Random rand = new Random(); 
 
@@ -78,12 +70,7 @@ public class game {
 			}
 		}
 		System.out.print("Generated 100x100 map.\n");
-		
-
 		itemdb.load();
-		
-		item(toon, itemdb);
-		
 		System.out.println("What would you like your player to be called?");
 		Scanner sc= new Scanner(System.in); //System.in is a standard input stream.
 		input = sc.nextLine(); 
@@ -96,11 +83,9 @@ public class game {
 		toon.setName(input);
 		System.out.println("Predefined classes are: mage,fighter,healer,rouge [or enter your own]");
 		toon.template("default");
-
 		i=0;
 		e = 0; //set starting position
 		//main game loop
-		
 		while (0==0){ 
 			c1 = System.in.read(); 
 			switch(c1){ 
@@ -149,22 +134,14 @@ public class game {
 				}
 				break;
 			case 'i':
-				
-				//list inventory
-			/*	while (player.inventory[in].amount=='1') {
-					System.out.print("%d: %s\n",in,player.inventory[in].type);
-					in++;
+				for(count=0;count< toon.getInv_size();++count){
+					System.out.println(count + " " +toon.inventory[count][0] + " of " + toon.inventory[count][1]);
 				}
-				in=0;
-				*/break;
+				
+				break;
 			case 'l':
-					//list item db
-					/*	while (player.inventory[in].amount=='1') {
-							System.out.print("%d: %s\n",in,player.inventory[in].type);
-							in++;
-						}
-						in=0;
-						*/break;
+				itemdb.list();
+				break;
 			case 'x':
 				//exit(0);
 			case 'u':
@@ -172,12 +149,9 @@ public class game {
 				break;
 			case '\0':
 				break;
-				
-				
 			default:
 				System.out.print("Movement: [w,a,s,d]\n");
 			}
 		}		
 	}
-
 }
