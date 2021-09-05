@@ -32,7 +32,11 @@ public class game {
 	}
 	private static void item( player toon, item_db itemdb ){
 		//first 
-		System.out.println("Hellow world");
+		Random rand = new Random();
+		int item_found=rand.nextInt(255);
+		
+		
+		System.out.println("Hellow world" + itemdb.items_db[item_found][0].toString() + itemdb.getSize());
 		;
 	}
 	private static void combat( player toon, int monster_hp ) {
@@ -74,8 +78,11 @@ public class game {
 			}
 		}
 		System.out.print("Generated 100x100 map.\n");
+		
 
 		itemdb.load();
+		
+		item(toon, itemdb);
 		
 		System.out.println("What would you like your player to be called?");
 		Scanner sc= new Scanner(System.in); //System.in is a standard input stream.
@@ -142,6 +149,7 @@ public class game {
 				}
 				break;
 			case 'i':
+				
 				//list inventory
 			/*	while (player.inventory[in].amount=='1') {
 					System.out.print("%d: %s\n",in,player.inventory[in].type);

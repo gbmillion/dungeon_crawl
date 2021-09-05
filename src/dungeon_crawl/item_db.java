@@ -27,11 +27,23 @@ public class item_db {
 	}
 	public char items_db[][][] = new char[255][3][255];
 	public int size;
-	int comma = 0;
-	int letter = 0;
-	int i = 0; 
-	char data;
+	private int comma = 0;
+	private int letter = 0;
+	private int i = 0; 
+	private char data;
 	
+	/**
+	 * @return the size
+	 */
+	public int getSize() {
+		return size;
+	}
+	/**
+	 * @param size the size to set
+	 */
+	public void setSize(int size) {
+		this.size = size;
+	}
 	public void list() {
 		int i=0;
 		int word = 0;
@@ -44,10 +56,11 @@ public class item_db {
 		}
 	}
     FileReader fr = new FileReader("item.db");   
-    public int load (){
+    public void load (){
+    	System.out.println("Loading the database.");
     	try {
 		
-    		data = (char) fr.read();
+    		data = (char) fr.read();//it's only reading the first char in item.db
 			while(data != -1) {
 		        if (data != ','){
 		    	   if (comma == 0 ) {//i is the unique number for each item
@@ -78,15 +91,13 @@ public class item_db {
 		       }
 			  data = (char) fr.read();
 			}
-			size = i;
+			this.setSize(i);
 			//fr.close(); 
     	} catch (IOException e) {
 			// TODO Auto-generated catch block
     		e.printStackTrace();
-    		return 1;
 		}
     	finally{
-    	}
-    	return 0;
+    	} 
     }
 }

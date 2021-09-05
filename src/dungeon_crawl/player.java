@@ -21,7 +21,7 @@ public class player { //base class template
 	private int Agility=rand.nextInt(20);
 	public int hp=100+rand.nextInt(20);
 	public int mana=100+rand.nextInt(20);
-	public int inventory[][][] = new int[255][3][255];
+	public char inventory[][][] = new char[255][3][255];
 	public String clas;
 	
 	public int damage (int dmg) {
