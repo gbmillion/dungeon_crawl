@@ -7,7 +7,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import java.util.Random;
-
 /**
  * @author george million
  *
@@ -80,8 +79,9 @@ public class game {
 
 		i=0;
 		e = 0; //set starting position
-	 	//main game loop
-		while (0==0){
+		//main game loop
+		
+		while (0==0){ 
 			c1 = System.in.read(); 
 			switch(c1){ 
 			case 'a':
@@ -141,6 +141,10 @@ public class game {
 			case 'u':
 				//use(&player);//use item in inventory
 				break;
+			case '\0':
+				break;
+				
+				
 			default:
 				System.out.print("Movement: [w,a,s,d]\n");
 			}

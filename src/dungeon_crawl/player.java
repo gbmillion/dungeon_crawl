@@ -78,5 +78,6 @@ public class player { //base class template
 		default:
 			   System.out.println("You have selected " + this.clas + ".");
 		}
+		//sc.close();
 	}
 }
