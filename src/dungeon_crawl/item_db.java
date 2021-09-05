@@ -47,22 +47,16 @@ public class item_db {
     	BufferedReader br = new BufferedReader(new FileReader(file));
     	String st;
     	int i=0;
-    	while ((st = br.readLine()) != null) {
-    		
-    		System.out.println(st);
-    	
+    	while ((st = br.readLine()) != null) { 
         	String[] parts = st.split(",");
         	//System.out.print(parts[0]);
         	this.items_db[i][0]=parts[0];
         	//System.out.print(parts[1]);
         	this.items_db[i][1]=parts[1];
         	//System.out.println(parts[2]);
-        	this.items_db[i][2]=parts[2];
-        	
+        	this.items_db[i][2]=parts[2]; 
         	i++;
     	}
-    	this.setSize(i);
-
-
+    	this.setSize(i); 
     }
 }

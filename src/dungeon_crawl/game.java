@@ -1,14 +1,12 @@
-package dungeon_crawl;
+package dungeon_crawl; 
 import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.IOException; 
 import java.util.Random;
 import java.util.Scanner;
 /**
  * @author george million
  *
- * Todo: 
- * 	use
- * 	potion
+ * Todo:  
  * 	stats
  * oo
  */
@@ -43,7 +41,7 @@ public class game {
 		if (rand.nextInt(100)  > 50){ //monster hits you
 			System.out.println("The monster hits you.");
 			if(toon.getDexterity() < rand.nextInt(20) ){//use dex to determine if you avoid an attack
-				hit_dmg = rand.nextInt(10) ;
+				hit_dmg = rand.nextInt(20) * rand.nextInt(10) ;
 				toon.setHp(toon.getHp()-hit_dmg) ;
 				System.out.println("You have been hit for "+hit_dmg+".");
 				hit_dmg=0; 
@@ -99,12 +97,48 @@ public class game {
 		}
 	}
 	} 
-	private static void use (player toon) {
-		;
-	}
-	private static void potion( int trait, int buff) {
-		;
-	}
+	private static void use (player toon, int invent_item) {
+		Random rand = new Random(); 
+		int effect = 0;
+		char input = toon.inventory[invent_item][2].charAt(0);
+		switch (input) {
+			case '1':
+				effect = rand.nextInt(3);
+				if( toon.inventory[invent_item][1] != "empty") System.out.println("Using "+toon.inventory[invent_item][0]+" of "+toon.inventory[invent_item][1]+" for effect of "+effect+".");
+				switch (toon.inventory[invent_item][1]) {
+				case "Dexterity":
+					toon.setDexterity(toon.getDexterity() + effect);
+					break;	
+				case "Stamina":
+					toon.setStamina(toon.getStamina() + effect);
+					break;	
+				case "Wisdom":
+					toon.setWisdom(toon.getWisdom() + effect);
+					break;	
+				case "Strength":
+					toon.setStrength(toon.getStrength() + effect);
+					break;	
+				case "Intellience":
+					toon.setIntelligence(toon.getIntelligence() + effect);
+					break;	
+				case "hp":
+					toon.setHp(toon.getHp() + (effect * 5 ));
+					break;	
+				case "mana":
+					toon.setMana(toon.getMana() + (effect * 5));
+					break;	
+				case "Agility":
+					toon.setAgility(toon.getAgility() + effect);
+					break;	
+				default:
+					System.out.println("This potion is unknown.");
+				}
+				toon.inventory[invent_item][1] = "empty";
+				break; 
+			default:
+				System.out.println("Unknown item type.");
+		} 
+	} 
 	/**
 	 * @param args
 	 * @throws IOException throws IOException 
@@ -113,7 +147,7 @@ public class game {
 	public static void main(String[] args) throws IOException {
 		player toon = new player();
 		item_db itemdb = new item_db();
-		int c1 = 0;
+		int c1 = 0; 
 		int[][] map = new int[100][100];
 		int i=0;
 		int e=0;
@@ -149,6 +183,7 @@ public class game {
 		i=0;
 		e = 0; //set starting position
 		//main game loop
+		System.out.print("Movement keys: [w,a,s,d]\n");
 		while (0==0){ 
 			c1 = System.in.read(); 
 			switch(c1){ 
@@ -206,15 +241,36 @@ public class game {
 				itemdb.list();
 				break;
 			case 'x':
-				//exit(0);
-			case 'u':
-				//use(&player);//use item in inventory
+				System.exit(0);
+				break;
+			case 'u':  
+				Scanner scanner = new Scanner(System.in);//I don't know why 
+				String buff = scanner.nextLine(); //		thse lines are needed	
+				System.out.println("Which inventory item to use:");
+				c1= System.in.read();
+				c1=c1-48; 
+				use(toon, c1); 
+				break;
+			case 'g':
+				item(toon, itemdb);//giving us an item to test use
+				break;
+			case 'c':
+				System.out.println("Your name is " + toon.getName() + ".");
+				System.out.println("Class: " + toon.getClas() + ".");
+				System.out.println("Agi: \t" + toon.getAgility() + ".");
+				System.out.println("Dex: \t" + toon.getDexterity() + ".");
+				System.out.println("Int: \t" + toon.getIntelligence() + ".");
+				System.out.println("Sta: \t" + toon.getStamina() + ".");
+				System.out.println("Str: \t" + toon.getStrength() + ".");
+				System.out.println("Wis: \t" + toon.getWisdom() + ".");
+				System.out.println("Hit points: \t" + toon.getHp() + ".");
+				System.out.println("Mana Points: \t" + toon.getMana() + ".");
 				break;
 			case '\0':
 				break;
 			default:
-				System.out.print("Movement: [w,a,s,d]\n");
+				System.out.print("Movement keys: [w,a,s,d]\n");
 			}
 		}		
-	}
+	} 
 }
