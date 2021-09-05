@@ -6,8 +6,7 @@ import java.util.Scanner;
 /**
  * @author george million
  *
- * Todo:  
- * 	stats
+ * Todo:   
  * oo
  */
 
@@ -155,7 +154,7 @@ public class game {
 		String input;
 		Random rand = new Random(); 
 
-		System.out.println("Welcome to dungeon hack!\nCommands: i[inventory],x[exit],u[use]");
+		System.out.println("Welcome to dungeon hack!\nCommands: i[inventory],x[exit],u[use],c[stats]");
 		for(i=0;i<100;++i){
 			for(e=0;e<100;++e){
 				//squares have a fifty fifty chance to have a random monster value on them
