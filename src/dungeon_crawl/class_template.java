@@ -4,9 +4,10 @@ import java.io.IOException;
 import java.util.Random;
 import java.util.Scanner; 
 
-public class class_template implements template { 
+public class class_template implements template { // character classes
 	public String clas;
 	private Random rand = new Random(); 
+	//randomly generate class stats
 	private int Dexterity=rand.nextInt(20);
 	private int Stamina=rand.nextInt(20);
 	private int Wisdom=rand.nextInt(20);
@@ -15,18 +16,18 @@ public class class_template implements template {
 	private int Agility=rand.nextInt(20);
 	public int hp=100+rand.nextInt(20);
 	public int mana=100+rand.nextInt(20);
-
+	//apply predefined class to generate states if desired
 	public void apply_class(String class_name) throws IOException {
 		@SuppressWarnings("resource")
 		Scanner sc= new Scanner(System.in); 
 		System.out.print("Enter a class: "); 
-		this.clas = sc.nextLine(); 
-		if (this.clas.equals("") ){
+		this.clas = sc.nextLine(); //get class name
+		if (this.clas.equals("") ){//use the default class if nothing is selected
 			this.clas=class_name;
 			System.out.println("Using randomly genorated values for your class.");
 		} 
 		switch(this.clas) {
-		case "mage" :
+		case "mage" ://start switch statement of predefined classes
 			System.out.println("You have selected mage.");
 			this.Dexterity=10;
 			this.Stamina=10;
@@ -64,10 +65,10 @@ public class class_template implements template {
 			break;
 		default:
 			   System.out.println("You have selected " + this.clas + ".");
-		}
-		//sc.close();
+		}/*closing this closes std in and causes problems
+		sc.close();*/
 	}
-
+	//setters/getters
 	public int getDexterity() {
 		return Dexterity;
 	} 
@@ -124,7 +125,7 @@ public class class_template implements template {
 	}
 }
 
-interface template {
+interface template { //generic class template of getters/setters
 	public int getDexterity() ;
 	public void setDexterity(int dexterity) ;
 	public int getStamina() ;
@@ -145,16 +146,16 @@ interface template {
 	public void setClas(String clas) ;
 }
 
-class player extends class_template {
+class player extends class_template {//a player is a type of class
 	public String name;
 	public String inventory[][] = new String[255][255];
 	private int inv_size = 0; 
-	
+	//player damage setter
 	public int damage (int dmg) {
 		 this.hp = this.hp - dmg;
 		 return 0;
 	}
-
+	//setters/getters
 	public String getName() {
 		return name;
 	}

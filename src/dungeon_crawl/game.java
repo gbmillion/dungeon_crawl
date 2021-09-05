@@ -8,30 +8,30 @@ import java.util.Scanner;
  *
  */
 
-public class game {
-	public game() throws FileNotFoundException {
+public class game {//main class
+	public game() throws FileNotFoundException {//catch exceptions
 		System.out.println("Error FileNotFoundException.");
 	}
-	private static void step(player toon, item_db itemdb ){
+	private static void step(player toon, item_db itemdb ){//take a step
 		Random rand = new Random(); 
 		if (rand.nextInt(100) < 30) trap(toon);//30% to hit trap
 		else if (rand.nextInt(100) > 90) item( toon,itemdb);//10% chance to get item
 	}
-	private static void trap(player toon ){
+	private static void trap(player toon ){//apply trap damage
 		Random rand = new Random();
 		toon.setHp(toon.getHp() - rand.nextInt(10)); 
 		System.out.println("You have stepped on a trap, your hp is now " + toon.getHp()  );	
 	}
-	private static void item( player toon, item_db itemdb ){ 
+	private static void item( player toon, item_db itemdb ){ //find random item
 		Random rand = new Random();
 		int item_found=rand.nextInt(itemdb.getSize());
 		System.out.println("You have found a " + itemdb.items_db[item_found][0]+".");
-		toon.inventory[toon.getInv_size()][0]= itemdb.items_db[item_found][0];
+		toon.inventory[toon.getInv_size()][0]= itemdb.items_db[item_found][0];//assign item from item_db to inventory
 		toon.inventory[toon.getInv_size()][1]= itemdb.items_db[item_found][1];
 		toon.inventory[toon.getInv_size()][2]= itemdb.items_db[item_found][2];
-		toon.setInv_size( toon.getInv_size() + 1 );
+		toon.setInv_size( toon.getInv_size() + 1 );//track size of inventory
 	}
-	private static void combat( player toon, int monster_hp){
+	private static void combat( player toon, int monster_hp){//start combat
 	int hit_dmg=0, heal=0;
 	Random rand = new Random();
 	while(monster_hp>0){//combat loop until monster dead
@@ -50,7 +50,7 @@ public class game {
 				System.exit(0);
 				break;
 			} else {
-				System.out.println("Health: "+ toon.getHp());
+				System.out.println("Health: "+ toon.getHp());//track hit points during combat
 			}
 		} else {
 			//you hit monster (or heal yourself)
@@ -62,7 +62,7 @@ public class game {
 				monster_hp = monster_hp - hit_dmg;
 				System.out.println("You have hit the monster for "+hit_dmg+".");
 				hit_dmg=0;
-			} else {
+			} else {//healing
 				heal = rand.nextInt(10);
 				System.out.println("The gods have favor on you, healing you for "+heal+".");
 				toon.setHp(toon.getHp()+heal);
@@ -97,11 +97,13 @@ public class game {
 	private static void use (player toon, int invent_item) {
 		Random rand = new Random(); 
 		int effect = 0;
-		char input = toon.inventory[invent_item][2].charAt(0);
+		char input = toon.inventory[invent_item][2].charAt(0);//get item identification number from inventory entry
 		switch (input) {
-			case '1':
+			case '1'://type 1 is potion
 				effect = rand.nextInt(3);
+				//make sure the potion isn't empty and tell the player the effects
 				if( toon.inventory[invent_item][1] != "empty") System.out.println("Using "+toon.inventory[invent_item][0]+" of "+toon.inventory[invent_item][1]+" for effect of "+effect+".");
+				//check which attribute the potion effects and apply it
 				switch (toon.inventory[invent_item][1]) {
 				case "Dexterity":
 					toon.setDexterity(toon.getDexterity() + effect);
@@ -129,18 +131,13 @@ public class game {
 					break;	
 				default:
 					System.out.println("This potion is unknown.");
-				}
+				}//empty the potion
 				toon.inventory[invent_item][1] = "empty";
 				break; 
-			default:
+			default://just add case to this switch statement to extend item types
 				System.out.println("Unknown item type.");
 		} 
 	} 
-	/**
-	 * @param args
-	 * @throws IOException throws IOException 
-	 */
-	
 	public static void main(String[] args) throws IOException {
 		player toon = new player();
 		item_db itemdb = new item_db();
@@ -151,7 +148,7 @@ public class game {
 		int count=0;
 		String input;
 		Random rand = new Random(); 
-
+		//fill in the 100x100 map with monsters (50% chance of monsters)
 		System.out.println("Welcome to dungeon hack!\nCommands: i[inventory],x[exit],u[use],c[stats]");
 		for(i=0;i<100;++i){
 			for(e=0;e<100;++e){
@@ -164,35 +161,35 @@ public class game {
 			}
 		}
 		System.out.print("Generated 100x100 map.\n");
-		itemdb.load();
+		itemdb.load();//reads the item.db file into the itemdb and then start player creation
 		System.out.println("What would you like your player to be called?");
-		Scanner sc= new Scanner(System.in); //System.in is a standard input stream.
+		Scanner sc= new Scanner(System.in); 
 		input = sc.nextLine(); 
 		while(0==0) {
-			if (input.equals("") ){
+			if (input.equals("") ){//make sure player enters something for a name
 				System.out.println("You must enter a name.");
 			} else break;
 			input = sc.nextLine();
 		}
-		toon.setName(input);
+		toon.setName(input);//apply class to player
 		System.out.println("Predefined classes are: mage,fighter,healer,rouge [or enter your own]");
 		toon.apply_class("default");
-		i=0;
-		e = 0; //set starting position
+		i=rand.nextInt(100); //set starting position to a random location on the map
+		e =rand.nextInt(100);
 		//main game loop
 		System.out.print("Movement keys: [w,a,s,d]\n");
-		while (0==0){ 
+		while (0==0){ //gather input key
 			c1 = System.in.read(); 
-			switch(c1){ 
+			switch(c1){ //determine direction
 			case 'a':
-				if (e == 100) {
+				if (e == 100) {//make sure we still on the map
 					System.out.println("You can not go that way.");
 				} else {
 					e++;
 					System.out.print("You have went left[w,a,s,d].\n");
-					if(map[e][i]>0){
+					if(map[e][i]>0){//check for monster
 						combat(toon,map[e][i]);
-					} else step(toon,  itemdb);
+					} else step(toon,  itemdb);//take a step
 				}
 				break;
 			case 's':
@@ -228,30 +225,30 @@ public class game {
 					}else step(toon,  itemdb);
 				}
 				break;
-			case 'i':
+			case 'i'://list inventory contents
 				for(count=0;count< toon.getInv_size();++count){
 					System.out.println(count + " " +toon.inventory[count][0] + " of " + toon.inventory[count][1]);
 				}
 				
 				break;
-			case 'l':
+			case 'l'://debug command to dump the itemdb
 				itemdb.list();
 				break;
-			case 'x':
+			case 'x'://quit game
 				System.exit(0);
 				break;
-			case 'u':  
+			case 'u':  //use item
 				Scanner scanner = new Scanner(System.in);//I don't know why 
 				String buff = scanner.nextLine(); //		these lines are needed	
 				System.out.println("Which inventory item to use:");
 				c1= System.in.read();
-				c1=c1-48; 
+				c1=c1-48; //convert from ascii to decimal (ugly)
 				use(toon, c1); 
 				break;
-			case 'g':
-				item(toon, itemdb);//giving us an item to test use
+			case 'g'://debug command to randomly give item
+				item(toon, itemdb); 
 				break;
-			case 'c':
+			case 'c'://print player stats
 				System.out.println("Your name is " + toon.getName() + ".");
 				System.out.println("Class: " + toon.getClas() + ".");
 				System.out.println("Agi: \t" + toon.getAgility() + ".");
