@@ -6,8 +6,6 @@ import java.util.Scanner;
 /**
  * @author george million
  *
- * Todo:   
- * oo
  */
 
 public class game {
@@ -178,7 +176,7 @@ public class game {
 		}
 		toon.setName(input);
 		System.out.println("Predefined classes are: mage,fighter,healer,rouge [or enter your own]");
-		toon.template("default");
+		toon.apply_class("default");
 		i=0;
 		e = 0; //set starting position
 		//main game loop
@@ -244,7 +242,7 @@ public class game {
 				break;
 			case 'u':  
 				Scanner scanner = new Scanner(System.in);//I don't know why 
-				String buff = scanner.nextLine(); //		thse lines are needed	
+				String buff = scanner.nextLine(); //		these lines are needed	
 				System.out.println("Which inventory item to use:");
 				c1= System.in.read();
 				c1=c1-48; 

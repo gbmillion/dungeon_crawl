@@ -7,27 +7,17 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-
-/**
- * @author user
- *
- */
+ 
 public class item_db {
 	public item_db() throws FileNotFoundException {
 		;
 	}
 	public String items_db [][]= new String[255][255]; 
 	private int size; 
-	
-	/**
-	 * @return the size
-	 */
+	 
 	public int getSize() {
 		return size;
-	}
-	/**
-	 * @param size the size to set
-	 */
+	} 
 	public void setSize(int size) {
 		this.size = size;
 	}
@@ -48,12 +38,9 @@ public class item_db {
     	String st;
     	int i=0;
     	while ((st = br.readLine()) != null) { 
-        	String[] parts = st.split(",");
-        	//System.out.print(parts[0]);
-        	this.items_db[i][0]=parts[0];
-        	//System.out.print(parts[1]);
-        	this.items_db[i][1]=parts[1];
-        	//System.out.println(parts[2]);
+        	String[] parts = st.split(","); 
+        	this.items_db[i][0]=parts[0]; 
+        	this.items_db[i][1]=parts[1]; 
         	this.items_db[i][2]=parts[2]; 
         	i++;
     	}
