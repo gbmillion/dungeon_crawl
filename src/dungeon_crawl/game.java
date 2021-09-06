@@ -5,9 +5,10 @@ import java.util.Random;
 import java.util.Scanner;
 /**
  * @author george million
- *
- * todo:
- * 	add boss combat
+ * Features:
+ * 	dynamically generated default class (with personal class name), predetermined class types, traps, usable items, loot, combat, 
+ * 	boss fights, dynamically generated map, multiple statistics per class
+ * todo: 
  * 
  * bugs:
  * 
@@ -46,17 +47,7 @@ public class game {//main class
 		monster_hp = 100 + rand.nextInt(200);
 		System.out.println("Monster has "+monster_hp+".");
 		System.out.println("A Boss monster has attacked!");
-		/*
-		 * implement stats for boss monster
-			 Dexterity *
-			 Stamina *
-			 Wisdom *
-			 Strength *
-			 Intelligence *
-			 Agility *
-			 hp *
-			 mana *
-		 */
+ 
 		while(monster_hp>0){//combat loop until monster dead
 			if (rand.nextInt(100)  > 50){ //monster hits you
 				System.out.println("The monster hits you.");
