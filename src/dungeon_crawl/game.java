@@ -40,7 +40,73 @@ public class game {//main class
 	int hit_dmg=0, heal=0;
 	Random rand = new Random();
 	npc boss = new npc();//add boss combat
-	while(monster_hp>0){//combat loop until monster dead
+	System.out.println("Monster has "+monster_hp+".");
+	
+	if (monster_hp  > 100) {
+		monster_hp = rand.nextInt(300);
+		System.out.println("A Boss monster has attacked!");
+		while(monster_hp>0){//combat loop until monster dead
+			if (rand.nextInt(100)  > 50){ //monster hits you
+				System.out.println("The monster hits you.");
+				if(toon.getDexterity() < rand.nextInt(20) ){//use dex to determine if you avoid an attack
+					hit_dmg = rand.nextInt(20) * rand.nextInt(10) ;
+					toon.setHp(toon.getHp()-hit_dmg) ;
+					System.out.println("You have been hit for "+hit_dmg+".");
+					hit_dmg=0; 
+				} else {
+					System.out.println("You jump out of the way, avoiding damage.");
+				}
+				if(toon.getHp()<=0){//check players hp & exit if dead
+					System.out.println("You have died.");
+					System.exit(0);
+					break;
+				} else {
+					System.out.println("Health: "+ toon.getHp());//track hit points during combat
+				}
+			} else {
+				//you hit monster (or heal yourself)
+				if(toon.getWisdom() < rand.nextInt(20)){
+					toon.setStamina(toon.getStamina() - 10); 
+					if (toon.getStamina()<= 0 ) hit_dmg = toon.getStrength() *  rand.nextInt(5) ;
+						else hit_dmg = toon.getStrength() *  rand.nextInt(10) ;
+					// if you're out of stamina you do half damage
+					monster_hp = monster_hp - hit_dmg;
+					System.out.println("You have hit the monster for "+hit_dmg+".");
+					hit_dmg=0;
+				} else {//healing
+					heal = rand.nextInt(10);
+					System.out.println("The gods have favor on you, healing you for "+heal+".");
+					toon.setHp(toon.getHp()+heal);
+				}
+			}
+			//cast a spell
+			if(toon.getIntelligence()>rand.nextInt(20 )){
+				if (toon.getMana() > 0){
+					hit_dmg = rand.nextInt(10) ;
+					monster_hp = monster_hp - hit_dmg;
+					System.out.println("Your spell  has hit the monster for "+hit_dmg+".");
+					hit_dmg=0;
+					toon.setMana(toon.getMana()-10); 
+				}
+
+			}
+			if (toon.getAgility() > rand.nextInt(20)){//check agil for chance of additional attack
+				System.out.println("You dodge a blow and are granted an additional attack.");
+				hit_dmg = toon.getStrength() *  rand.nextInt(10) ; 
+				monster_hp = monster_hp - hit_dmg;
+				System.out.println("You have hit the monster for "+hit_dmg+".");
+				hit_dmg=0;
+			}
+			if(monster_hp<=0){//you have killed the monster, reset player
+				System.out.println("The monster is dead.");
+				toon.setMana(100); 
+				toon.setStamina(100);
+				toon.setHp(100);
+			}
+		}
+	}
+	
+	while(monster_hp>0 && monster_hp  < 100){//combat loop until monster dead
 		if (rand.nextInt(100)  > 50){ //monster hits you
 			System.out.println("The monster hits you.");
 			if(toon.getDexterity() < rand.nextInt(20) ){//use dex to determine if you avoid an attack
@@ -99,7 +165,7 @@ public class game {//main class
 			toon.setHp(100);
 		}
 	}
-	} 
+} 
 	private static void use (player toon, int invent_item) {
 		Random rand = new Random(); 
 		int effect = 0;
@@ -189,6 +255,9 @@ public class game {//main class
 		while (0==0){ //gather input key
 			c1 = System.in.read(); 
 			switch(c1){ //determine direction
+			case 'b':
+				combat(toon,101);
+				break;
 			case 'a':
 				if (e == 100) {//make sure we still on the map
 					System.out.println("You can not go that way.");
