@@ -17,7 +17,7 @@ public class class_template implements template { // character classes
 	public int hp=100+rand.nextInt(20);
 	public int mana=100+rand.nextInt(20);
 	//apply predefined class to generate states if desired
-	public void apply_class(String class_name) throws IOException {
+	public int apply_class(String class_name) throws IOException {
 		@SuppressWarnings("resource")
 		Scanner sc= new Scanner(System.in); 
 		System.out.print("Enter a class: "); 
@@ -67,6 +67,7 @@ public class class_template implements template { // character classes
 			   System.out.println("You have selected " + this.clas + ".");
 		}/*closing this closes std in and causes problems
 		sc.close();*/
+		return 0;
 	}
 	//setters/getters
 	public int getDexterity() {
@@ -169,4 +170,35 @@ class player extends class_template {//a player is a type of class
 	public void setInv_size(int inv_size) {
 		this.inv_size = inv_size;
 	}
+}
+class npc extends class_template {
+	//a player is a type of class
+	private String name;
+	 public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public  void main(String argsp[]) throws IOException {
+		 Random rand = new Random();
+		 int clas=rand.nextInt(3);
+		switch (clas) {
+			case 0 ://start switch statement of predefined classes
+				this.apply_class("mage");
+				break;
+			case 1 :
+				this.apply_class("fighter");
+				break;
+			case 2 :
+				this.apply_class("healer");
+				break;
+			case 3 :
+				this.apply_class("rouge");
+				break;
+			default :
+				this.apply_class("");
+				break;
+		}
+	 } 
 }

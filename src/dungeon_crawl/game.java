@@ -6,6 +6,11 @@ import java.util.Scanner;
 /**
  * @author george million
  *
+ * todo:
+ * 	add boss combat
+ * 
+ * bugs:
+ * 
  */
 
 public class game {//main class
@@ -34,6 +39,7 @@ public class game {//main class
 	private static void combat( player toon, int monster_hp){//start combat
 	int hit_dmg=0, heal=0;
 	Random rand = new Random();
+	npc boss = new npc();//add boss combat
 	while(monster_hp>0){//combat loop until monster dead
 		if (rand.nextInt(100)  > 50){ //monster hits you
 			System.out.println("The monster hits you.");
@@ -153,10 +159,12 @@ public class game {//main class
 		for(i=0;i<100;++i){
 			for(e=0;e<100;++e){
 				//squares have a fifty fifty chance to have a random monster value on them
-				if (rand.nextInt(100) > 50 ){
-					map[e][i]= rand.nextInt(100);//monsters hp up to 100
+				if (rand.nextInt(100) > 50 && rand.nextInt(100) < 30 ){
+					map[e][i]= 101;//monsters hp up to 100
+				} else if (rand.nextInt(100) > 50 ){
+					map[e][i]= rand.nextInt(100);
 				} else {
-					map[e][i]= 0;
+					map[e][i]=0;
 				}
 			}
 		}
