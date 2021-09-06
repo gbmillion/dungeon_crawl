@@ -39,20 +39,38 @@ public class game {//main class
 	private static void combat( player toon, int monster_hp){//start combat
 	int hit_dmg=0, heal=0;
 	Random rand = new Random();
-	npc boss = new npc();//add boss combat
-	System.out.println("Monster has "+monster_hp+".");
+	npc boss = new npc(); 
 	
 	if (monster_hp  > 100) {
-		monster_hp = rand.nextInt(300);
+		
+		monster_hp = 100 + rand.nextInt(200);
+		System.out.println("Monster has "+monster_hp+".");
 		System.out.println("A Boss monster has attacked!");
+		/*
+		 * implement stats for boss monster
+			 Dexterity *
+			 Stamina *
+			 Wisdom *
+			 Strength *
+			 Intelligence *
+			 Agility *
+			 hp *
+			 mana *
+		 */
 		while(monster_hp>0){//combat loop until monster dead
 			if (rand.nextInt(100)  > 50){ //monster hits you
 				System.out.println("The monster hits you.");
 				if(toon.getDexterity() < rand.nextInt(20) ){//use dex to determine if you avoid an attack
-					hit_dmg = rand.nextInt(20) * rand.nextInt(10) ;
+					boss.setStamina(boss.getStamina() - 10); 
+					if (boss.getStamina()<= 0 ) hit_dmg = boss.getStrength() *  rand.nextInt(5) ;
+						else hit_dmg = boss.getStrength() *  rand.nextInt(10) ; 
 					toon.setHp(toon.getHp()-hit_dmg) ;
-					System.out.println("You have been hit for "+hit_dmg+".");
+					System.out.println("You have been hit for "+hit_dmg+" hitpoints.");
 					hit_dmg=0; 
+				} else if (boss.getWisdom() < rand.nextInt(20)) {//healing
+					heal = rand.nextInt(10);
+					System.out.println("The gods have favor on the monster, healing you for "+heal+".");
+					toon.setHp(toon.getHp()+heal);
 				} else {
 					System.out.println("You jump out of the way, avoiding damage.");
 				}
@@ -61,23 +79,47 @@ public class game {//main class
 					System.exit(0);
 					break;
 				} else {
-					System.out.println("Health: "+ toon.getHp());//track hit points during combat
+					System.out.println("Player Health: "+ toon.getHp());//track hit points during combat
+					System.out.println("Monster Health: "+ boss.getHp());//track hit points during combat
+					
+				}
+				if (boss.getAgility() > rand.nextInt(20)){//check agil for chance of additional attack from boss
+					System.out.println("Monster dodges a blow and are granted an additional attack.");
+					hit_dmg = boss.getStrength() *  rand.nextInt(10) ; 
+					toon.setHp(toon.getHp() - hit_dmg); 
+					System.out.println("The monster has hit you for "+hit_dmg+".");
+					hit_dmg=0;
+				}
+				if(boss.getIntelligence()>rand.nextInt(20 )){
+					if (boss.getMana() > 0){
+						hit_dmg = rand.nextInt(10) ;
+						toon.setHp(toon.getHp() - hit_dmg); 
+						System.out.println("Monster's spell has hit you for "+hit_dmg+".");
+						hit_dmg=0;
+						boss.setMana(boss.getMana()-10); 
+					}
+
 				}
 			} else {
 				//you hit monster (or heal yourself)
-				if(toon.getWisdom() < rand.nextInt(20)){
-					toon.setStamina(toon.getStamina() - 10); 
-					if (toon.getStamina()<= 0 ) hit_dmg = toon.getStrength() *  rand.nextInt(5) ;
-						else hit_dmg = toon.getStrength() *  rand.nextInt(10) ;
-					// if you're out of stamina you do half damage
-					monster_hp = monster_hp - hit_dmg;
-					System.out.println("You have hit the monster for "+hit_dmg+".");
-					hit_dmg=0;
-				} else {//healing
-					heal = rand.nextInt(10);
-					System.out.println("The gods have favor on you, healing you for "+heal+".");
-					toon.setHp(toon.getHp()+heal);
+				if(boss.getDexterity() < rand.nextInt(20) ){//use dex to determine if monster avoid an attack
+					if(toon.getWisdom() < rand.nextInt(20)){
+						toon.setStamina(toon.getStamina() - 10); 
+						if (toon.getStamina()<= 0 ) hit_dmg = toon.getStrength() *  rand.nextInt(5) ;
+							else hit_dmg = toon.getStrength() *  rand.nextInt(10) ;
+						// if you're out of stamina you do half damage
+						monster_hp = monster_hp - hit_dmg;
+						System.out.println("You have hit the monster for "+hit_dmg+".");
+						hit_dmg=0;
+					} else {//healing
+						heal = rand.nextInt(10);
+						System.out.println("The gods have favor on you, healing you for "+heal+".");
+						toon.setHp(toon.getHp()+heal);
+					}
+				} else {
+					System.out.println("The monster avoids your blow.");
 				}
+
 			}
 			//cast a spell
 			if(toon.getIntelligence()>rand.nextInt(20 )){
